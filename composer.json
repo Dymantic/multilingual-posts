@@ -1,0 +1,13 @@
+{
+    "name": "dymantic/multilingual-posts",
+    "description": "Laravel Model and helpers for multilingual posts",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Joyner",
+            "email": "joyner.michael@gmail.com"
+        }
+    ],
+    "require": {}
+}
