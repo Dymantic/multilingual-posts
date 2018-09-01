@@ -9,5 +9,30 @@
             "email": "joyner.michael@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "cviebrock/eloquent-sluggable": "^4.5",
+        "spatie/laravel-medialibrary": "^7.0.0",
+        "spatie/laravel-translatable": "^2.2"
+    },
+
+    "require-dev": {
+        "orchestra/testbench": "~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dymantic\\MultilingualPosts\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dymantic\\MultilingualPosts\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dymantic\\MultilingualPosts\\MultilingualPostsServiceProvider"
+            ]
+        }
+    }
 }
