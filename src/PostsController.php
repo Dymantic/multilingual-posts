@@ -29,4 +29,9 @@ class PostsController extends Controller
         $post = Post::findOrFail($postId);
         $post->update(request()->only(['title', 'intro', 'description', 'body']));
     }
+
+    public function destroy($postId)
+    {
+        Post::findOrFail($postId)->delete();
+    }
 }

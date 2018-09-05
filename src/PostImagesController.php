@@ -11,9 +11,11 @@ class PostImagesController extends Controller
 {
     public function store($postId)
     {
-        $post = Post::findOrFail($postId);
+        request()->validate([
+            'image' => ['required', 'image']
+        ]);
 
-        $post->attachImage(request('image'));
+        Post::findOrFail($postId)->attachImage(request('image'));
 
         return response(null, 201);
     }
