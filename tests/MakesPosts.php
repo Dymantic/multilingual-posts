@@ -17,6 +17,6 @@ trait MakesPosts
             'body'        => ['en' => 'test body', 'fr' => 'test bodyy'],
         ];
 
-        return Post::create(array_merge($defaults, $post_data))->fresh();
+        return Post::forceCreate(array_merge($defaults, $post_data))->fresh();
     }
 }

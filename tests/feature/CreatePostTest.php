@@ -20,7 +20,7 @@ class CreatePostTest extends TestCase
             'description' => ['en' => 'Test Description', 'fr' => 'Test Descriptiony'],
         ];
 
-        $response = $this->asLoggedInUser()->json("POST", "/multilingual-posts/", $post_data);
+        $response = $this->asLoggedInUser()->json("POST", "/multilingual-posts/posts/", $post_data);
         $response->assertStatus(201);
 
         $this->assertDatabaseHasWithTranslations('multilingual_posts', $post_data);
@@ -38,7 +38,7 @@ class CreatePostTest extends TestCase
             'description' => ['en' => 'Test Description', 'fr' => 'Test Descriptiony'],
         ];
 
-        $response = $this->asLoggedInUser()->json("POST", "/multilingual-posts/", $post_data);
+        $response = $this->asLoggedInUser()->json("POST", "/multilingual-posts/posts/", $post_data);
         $response->assertStatus(201);
 
         $this->assertCount(1, Post::all());
@@ -52,7 +52,7 @@ class CreatePostTest extends TestCase
      */
     public function a_title_in_at_least_one_language_must_be_present_to_create_a_post()
     {
-        $response = $this->asLoggedInUser()->json("POST", "/multilingual-posts/", ['title' => ""]);
+        $response = $this->asLoggedInUser()->json("POST", "/multilingual-posts/posts/", ['title' => ""]);
         $response->assertStatus(422);
 
         $response->assertJsonValidationErrors('title');
@@ -63,7 +63,7 @@ class CreatePostTest extends TestCase
      */
     public function the_title_must_be_an_array()
     {
-        $response = $this->asLoggedInUser()->json("POST", "/multilingual-posts/", ['title' => "What language is this"]);
+        $response = $this->asLoggedInUser()->json("POST", "/multilingual-posts/posts/", ['title' => "What language is this"]);
         $response->assertStatus(422);
 
         $response->assertJsonValidationErrors('title');
@@ -74,7 +74,7 @@ class CreatePostTest extends TestCase
      */
     public function the_title_must_be_an_array_with_at_least_one_language_entry()
     {
-        $response = $this->asLoggedInUser()->json("POST", "/multilingual-posts/", ['title' => ["what language is this"]]);
+        $response = $this->asLoggedInUser()->json("POST", "/multilingual-posts/posts/", ['title' => ["what language is this"]]);
         $response->assertStatus(422);
 
         $response->assertJsonValidationErrors('title');

@@ -20,7 +20,7 @@ class UpdatePostTest extends TestCase
 
         $post = $this->makePost();
 
-        $response = $this->asLoggedInUser()->postJson("/multilingual-posts/{$post->id}", [
+        $response = $this->asLoggedInUser()->postJson("/multilingual-posts/posts/{$post->id}", [
             'title'       => ['en' => 'new title', 'fr' => 'new titley'],
             'intro'       => ['en' => 'new intro', 'fr' => 'new introy'],
             'description' => ['en' => 'new description', 'fr' => 'new descriptiony'],
