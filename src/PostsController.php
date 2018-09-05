@@ -19,7 +19,7 @@ class PostsController extends Controller
             }]
         ]);
 
-        $post =  Post::create(request()->only('title', 'intro', 'description', 'body'));
+        $post =  Post::create(request()->all('title', 'intro', 'description', 'body'));
 
         return new PostResource($post);
     }
