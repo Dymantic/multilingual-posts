@@ -8,6 +8,17 @@ use Illuminate\Routing\Controller;
 
 class PostsController extends Controller
 {
+
+    public function index()
+    {
+        return PostResource::collection(Post::paginate());
+    }
+
+    public function show($postId)
+    {
+        return new PostResource(Post::findOrFail($postId));
+    }
+
     public function store()
     {
         request()->validate([

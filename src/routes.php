@@ -1,7 +1,9 @@
 <?php
 
 Route::group(['prefix' => 'multilingual-posts', 'namespace' => 'Dymantic\MultilingualPosts'], function() {
+    Route::get('posts', 'PostsController@index');
     Route::post('posts', 'PostsController@store');
+    Route::get('posts/{postId}', 'PostsController@show');
     Route::post('posts/{postId}', 'PostsController@update');
     Route::delete('posts/{postId}', 'PostsController@destroy');
 

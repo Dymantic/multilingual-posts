@@ -40,4 +40,6 @@ class PostResourceTest extends TestCase
 
         $this->assertEquals($expected, (new PostResource($post->fresh()))->toArray(request()));
     }
+
+
 }
