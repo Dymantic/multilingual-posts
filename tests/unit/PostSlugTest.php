@@ -47,7 +47,7 @@ class PostSlugTest extends TestCase
         $this->assertNull($post->published_on);
         $this->assertEquals('original-title', $post->fresh()->slug);
 
-        $post->published_on = Carbon::now();
+        $post->first_published_on = Carbon::now();
         $post->save();
 
         $post->title = ['en' => 'A new title', 'fr' => 'A new titley'];

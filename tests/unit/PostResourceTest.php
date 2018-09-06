@@ -8,6 +8,7 @@ use Dymantic\MultilingualPosts\Post;
 use Dymantic\MultilingualPosts\PostResource;
 use Dymantic\MultilingualPosts\Tests\TestCase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 
 class PostResourceTest extends TestCase
 {
@@ -25,6 +26,9 @@ class PostResourceTest extends TestCase
 
         $image = $post->setTitleImage(UploadedFile::fake()->image('testpic.png'));
 
+        $post->publish();
+        $post->publish(Carbon::today()->addWeek());
+
         $expected = [
             'id'                   => $post->id,
             'slug'                 => 'test-title',
@@ -34,9 +38,11 @@ class PostResourceTest extends TestCase
             'body'                 => ['en' => 'test body', 'fr' => 'test bodyy'],
             'created_at'           => $post->created_at->format('d M Y'),
             'updated_at'           => $post->updated_at->format('d M Y'),
-            'is_draft'             => true,
+            'is_draft'             => false,
+            'is_live'              => false,
+            'publish_date'         => Carbon::today()->addWeek()->format('d M Y'),
             'author'               => null,
-            'published_on'         => null,
+            'first_published_on'         => Carbon::today()->format('d M Y'),
             'title_image_original' => $image->getUrl(),
             'title_image_banner'   => $image->getUrl('banner'),
             'title_image_web'      => $image->getUrl('web'),

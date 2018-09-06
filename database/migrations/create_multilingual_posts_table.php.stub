@@ -20,7 +20,8 @@ class CreateMultilingualPostsTable extends Migration
             $table->json('description')->nullable();
             $table->json('intro')->nullable();
             $table->json('body')->nullable();
-            $table->date('published_on')->nullable();
+            $table->date('first_published_on')->nullable();
+            $table->date('publish_date')->nullable();
             $table->boolean('is_draft')->default(1);
             $table->nullableTimestamps();
         });

@@ -26,7 +26,7 @@ class Post extends Model implements HasMedia
 
     public $translatable = ['title', 'intro', 'description', 'body'];
 
-    protected $dates = ['published_on'];
+    protected $dates = ['publish_date', 'first_published_on'];
 
     protected $casts = ['is_draft' => 'boolean'];
 
@@ -35,29 +35,49 @@ class Post extends Model implements HasMedia
         return [
             'slug' => [
                 'source'   => 'title',
-                'onUpdate' => !$this->published_on
+                'onUpdate' => !$this->hasBeenPublished()
             ]
         ];
     }
 
-    public function publish()
+    public function publish(Carbon $date = null)
     {
+        if(is_null($date)) {
+            $date = Carbon::today();
+        }
         if (!$this->hasBeenPublished()) {
-            $this->published_on = Carbon::now();
+            $this->first_published_on = $date;
         }
 
         $this->is_draft = false;
+        $this->publish_date = $date;
         $this->save();
     }
 
     public function hasBeenPublished()
     {
-        return !is_null($this->published_on);
+        if(is_null($this->first_published_on)) {
+            return false;
+        }
+
+        return $this->first_published_on->startOfDay()->isPast();
+    }
+
+    public function isLive()
+    {
+        if($this->is_draft || is_null($this->publish_date)) {
+            return false;
+        }
+        return $this->publish_date->startOfDay()->lte(Carbon::today());
     }
 
     public function retract()
     {
+        if(!$this->hasBeenPublished()) {
+            $this->first_published_on = null;
+        }
         $this->is_draft = true;
+        $this->publish_date = null;
         $this->save();
     }
 
