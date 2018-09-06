@@ -61,6 +61,17 @@ class Post extends Model implements HasMedia
         $this->save();
     }
 
+    public function titleImage($conversion = '')
+    {
+        $image = $this->getFirstMedia(static::TITLE_IMAGES);
+
+        if(! $image) {
+            return null;
+        }
+
+        return $image->getUrl($conversion);
+    }
+
     public function setTitleImage($file)
     {
         $this->clearTitleImage();

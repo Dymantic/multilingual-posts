@@ -44,6 +44,22 @@ class PostTitleImagesTest extends TestCase
     /**
      *@test
      */
+    public function the_title_image_src_can_be_queried()
+    {
+        $post = $this->makePost();
+        $image = $post->setTitleImage(UploadedFile::fake()->image('testpic.png'))->fresh();
+
+        $post = $post->fresh();
+
+        $this->assertEquals($image->getUrl(), $post->titleImage());
+        $this->assertEquals($image->getUrl('banner'), $post->titleImage('banner'));
+        $this->assertEquals($image->getUrl('web'), $post->titleImage('web'));
+        $this->assertEquals($image->getUrl('thumb'), $post->titleImage('thumb'));
+    }
+
+    /**
+     *@test
+     */
     public function setting_a_posts_title_image_will_clear_out_any_previous_title_images()
     {
         $post = $this->makePost();

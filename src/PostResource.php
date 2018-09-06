@@ -24,8 +24,10 @@ class PostResource extends Resource
             'is_draft'             => $this->is_draft ?? true,
             'author'               => null,
             'published_on'         => $this->published_on ? $this->published_on->format('d M Y') : null,
-            'title_image_original' => null,
-            'title_image_thumb'    => null
+            'title_image_original' => $this->titleImage(),
+            'title_image_banner'   => $this->titleImage('banner'),
+            'title_image_web'      => $this->titleImage('web'),
+            'title_image_thumb'    => $this->titleImage('thumb'),
         ];
     }
 }

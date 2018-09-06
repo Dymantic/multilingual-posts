@@ -7,6 +7,7 @@ namespace Dymantic\MultilingualPosts\Tests\unit;
 use Dymantic\MultilingualPosts\Post;
 use Dymantic\MultilingualPosts\PostResource;
 use Dymantic\MultilingualPosts\Tests\TestCase;
+use Illuminate\Http\UploadedFile;
 
 class PostResourceTest extends TestCase
 {
@@ -22,6 +23,8 @@ class PostResourceTest extends TestCase
             'body'        => ['en' => 'test body', 'fr' => 'test bodyy']
         ]);
 
+        $image = $post->setTitleImage(UploadedFile::fake()->image('testpic.png'));
+
         $expected = [
             'id'                   => $post->id,
             'slug'                 => 'test-title',
@@ -34,8 +37,10 @@ class PostResourceTest extends TestCase
             'is_draft'             => true,
             'author'               => null,
             'published_on'         => null,
-            'title_image_original' => null,
-            'title_image_thumb'    => null
+            'title_image_original' => $image->getUrl(),
+            'title_image_banner'   => $image->getUrl('banner'),
+            'title_image_web'      => $image->getUrl('web'),
+            'title_image_thumb'    => $image->getUrl('thumb'),
         ];
 
         $this->assertEquals($expected, (new PostResource($post->fresh()))->toArray(request()));

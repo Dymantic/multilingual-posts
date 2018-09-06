@@ -33,6 +33,23 @@ class SetTitleImageTest extends TestCase
     /**
      *@test
      */
+    public function successfully_setting_title_image_responds_with_image_src()
+    {
+        $this->withoutExceptionHandling();
+        $post = $this->makePost();
+
+        $response = $this->asLoggedInUser()
+                         ->postJson("/multilingual-posts/posts/{$post->id}/title-image", [
+                             'image' => UploadedFile::fake()->image('testpic.png')
+                         ]);
+        $response->assertStatus(200);
+
+        $this->assertEquals($post->fresh()->getFirstMedia(Post::TITLE_IMAGES)->getUrl('web'), $response->decodeResponseJson('image_src'));
+    }
+
+    /**
+     *@test
+     */
     public function the_image_is_required()
     {
         $post = $this->makePost();

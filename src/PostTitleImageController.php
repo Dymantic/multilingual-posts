@@ -13,8 +13,8 @@ class PostTitleImageController extends Controller
         request()->validate([
             'image' => ['required', 'image']
         ]);
-        $post = Post::findOrFail($postId);
+        $image = Post::findOrFail($postId)->setTitleImage(request('image'));
 
-        $post->setTitleImage(request('image'));
+        return ['image_src' => $image->getUrl('web')];
     }
 }
