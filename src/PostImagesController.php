@@ -15,8 +15,8 @@ class PostImagesController extends Controller
             'image' => ['required', 'image']
         ]);
 
-        Post::findOrFail($postId)->attachImage(request('image'));
+        $image = Post::findOrFail($postId)->attachImage(request('image'));
 
-        return response(null, 201);
+        return response(['src' => $image->getUrl('web')], 201);
     }
 }

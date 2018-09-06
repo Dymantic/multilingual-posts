@@ -32,6 +32,22 @@ class AttachPostImageTest extends TestCase
     /**
      *@test
      */
+    public function attaching_an_image_responds_with_image_src()
+    {
+        $this->withoutExceptionHandling();
+        $post = $this->makePost();
+
+        $response = $this->asLoggedInUser()->postJson("/multilingual-posts/posts/{$post->id}/images", [
+            'image' => UploadedFile::fake()->image('testpic.png')
+        ]);
+        $response->assertStatus(201);
+
+        $this->assertEquals($post->fresh()->getFirstMedia(Post::BODY_IMAGES)->getUrl('web'), $response->decodeResponseJson('src'));
+    }
+
+    /**
+     *@test
+     */
     public function the_image_is_required()
     {
         $post = $this->makePost();
