@@ -163,8 +163,12 @@ abstract class TestCase extends Orchestra
         TestUser::create(['name' => 'test user', 'email' => 'test@example.com', 'password' => 'password']);
 
         include_once __DIR__ . '/../database/migrations/create_multilingual_posts_table.php.stub';
+        include_once __DIR__ . '/../database/migrations/create_multilingual_categories_table.php.stub';
+        include_once __DIR__ . '/../database/migrations/create_multilingual_category_post_table.php.stub';
 
         (new \CreateMultilingualPostsTable())->up();
+        (new \CreateMultilingualCategoriesTable())->up();
+        (new \CreateMultilingualCategoryPostTable())->up();
     }
 
     protected function initializeDirectory($directory)

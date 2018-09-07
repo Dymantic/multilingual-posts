@@ -5,14 +5,14 @@ namespace Dymantic\MultilingualPosts\Tests\unit;
 
 
 use Dymantic\MultilingualPosts\Post;
-use Dymantic\MultilingualPosts\Tests\MakesPosts;
+use Dymantic\MultilingualPosts\Tests\UsesModels;
 use Dymantic\MultilingualPosts\Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 use Spatie\MediaLibrary\Models\Media;
 
 class PostTitleImagesTest extends TestCase
 {
-    use MakesPosts;
+    use UsesModels;
 
     /**
      *@test

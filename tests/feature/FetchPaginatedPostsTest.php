@@ -5,12 +5,12 @@ namespace Dymantic\MultilingualPosts\Tests\feature;
 
 
 use Dymantic\MultilingualPosts\PostResource;
-use Dymantic\MultilingualPosts\Tests\MakesPosts;
+use Dymantic\MultilingualPosts\Tests\UsesModels;
 use Dymantic\MultilingualPosts\Tests\TestCase;
 
 class FetchPaginatedPostsTest extends TestCase
 {
-    use MakesPosts;
+    use UsesModels;
 
     /**
      * @test

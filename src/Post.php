@@ -40,6 +40,26 @@ class Post extends Model implements HasMedia
         ];
     }
 
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'multilingual_category_post');
+    }
+
+    public function addCategory($category)
+    {
+        $this->categories()->attach($category);
+    }
+
+    public function removeCategory($category)
+    {
+        $this->categories()->detach($category);
+    }
+
+    public function setCategories($categories)
+    {
+        $this->categories()->sync($categories->pluck('id'));
+    }
+
     public function publish(Carbon $date = null)
     {
         if(is_null($date)) {

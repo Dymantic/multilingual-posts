@@ -11,6 +11,9 @@ Route::group(['prefix' => 'multilingual-posts', 'namespace' => 'Dymantic\Multili
     Route::delete('published-posts/{postId}', 'PublishedPostsController@destroy');
 
     Route::post('posts/{postId}/title-image', 'PostTitleImageController@store');
-
     Route::post('posts/{postId}/images', 'PostImagesController@store');
+
+    Route::post('categories', 'CategoriesController@store');
+    Route::post('categories/{categoryId}', 'CategoriesController@update');
+    Route::delete('categories/{categoryId}', 'CategoriesController@destroy');
 });

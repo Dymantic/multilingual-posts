@@ -4,13 +4,13 @@
 namespace Dymantic\MultilingualPosts\Tests\unit;
 
 
-use Dymantic\MultilingualPosts\Tests\MakesPosts;
+use Dymantic\MultilingualPosts\Tests\UsesModels;
 use Dymantic\MultilingualPosts\Tests\TestCase;
 use Illuminate\Support\Carbon;
 
 class PostPublishingTest extends TestCase
 {
-    use MakesPosts;
+    use UsesModels;
 
     /**
      *@test
