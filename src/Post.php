@@ -30,6 +30,32 @@ class Post extends Model implements HasMedia
 
     protected $casts = ['is_draft' => 'boolean'];
 
+    public static function create($post_attributes)
+    {
+        return PostFactory::make($post_attributes);
+    }
+
+    public function safeUpdate($post_attributes)
+    {
+        if(array_key_exists('title', $post_attributes) && empty($post_attributes['title'])) {
+            throw new BadPostDataException('the title attribute cannot be empty');
+        }
+
+        $translated = collect($post_attributes)
+            ->flatMap(function($value, $field) {
+                if(in_array($field, $this->translatable) && is_string($value)) {
+                    return [$field => [app()->getLocale() => $value]];
+                }
+                return [$field => $value];
+            })->all();
+
+        $this->update($translated);
+
+        if(array_key_exists('category_id', $post_attributes)) {
+            $this->setCategories(Category::find($post_attributes['category_id']));
+        }
+    }
+
     public function sluggable(): array
     {
         return [
@@ -57,12 +83,13 @@ class Post extends Model implements HasMedia
 
     public function setCategories($categories)
     {
-        $this->categories()->sync($categories->pluck('id'));
+        $ids = $categories ? $categories->pluck('id') : [];
+        $this->categories()->sync($ids);
     }
 
     public function publish(Carbon $date = null)
     {
-        if(is_null($date)) {
+        if (is_null($date)) {
             $date = Carbon::today();
         }
         if (!$this->hasBeenPublished()) {
@@ -76,7 +103,7 @@ class Post extends Model implements HasMedia
 
     public function hasBeenPublished()
     {
-        if(is_null($this->first_published_on)) {
+        if (is_null($this->first_published_on)) {
             return false;
         }
 
@@ -85,15 +112,16 @@ class Post extends Model implements HasMedia
 
     public function isLive()
     {
-        if($this->is_draft || is_null($this->publish_date)) {
+        if ($this->is_draft || is_null($this->publish_date)) {
             return false;
         }
+
         return $this->publish_date->startOfDay()->lte(Carbon::today());
     }
 
     public function retract()
     {
-        if(!$this->hasBeenPublished()) {
+        if (!$this->hasBeenPublished()) {
             $this->first_published_on = null;
         }
         $this->is_draft = true;
@@ -105,7 +133,7 @@ class Post extends Model implements HasMedia
     {
         $image = $this->getFirstMedia(static::TITLE_IMAGES);
 
-        if(! $image) {
+        if (!$image) {
             return null;
         }
 

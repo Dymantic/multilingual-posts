@@ -23,10 +23,11 @@ class PostsController extends Controller
     public function store()
     {
         request()->validate([
-            'title' => ['required', 'array', new RequiresLanguage]
+            'title' => ['required', 'array', new RequiresLanguage],
+            'category_ids' => ['array']
         ]);
 
-        $post =  Post::create(request()->all('title', 'intro', 'description', 'body'));
+        $post =  Post::create(request()->only('title', 'intro', 'description', 'body', 'category_id'));
 
         return new PostResource($post);
     }
@@ -34,7 +35,7 @@ class PostsController extends Controller
     public function update($postId)
     {
         $post = Post::findOrFail($postId);
-        $post->update(request()->only(['title', 'intro', 'description', 'body']));
+        $post->safeUpdate(request()->only(['title', 'intro', 'description', 'body', 'category_id']));
     }
 
     public function destroy($postId)

@@ -4,6 +4,7 @@
 namespace Dymantic\MultilingualPosts\Tests\unit;
 
 
+use Dymantic\MultilingualPosts\Category;
 use Dymantic\MultilingualPosts\Tests\TestCase;
 use Dymantic\MultilingualPosts\Tests\UsesModels;
 
@@ -79,5 +80,24 @@ class PostCategoriesTest extends TestCase
         $post->fresh()->categories->each(function($post_category) use ($categories) {
             $this->assertContains($post_category->id, $categories->pluck('id'));
         });
+    }
+
+    /**
+     *@test
+     */
+    public function calling_set_category_with_null_will_detach_all_categories()
+    {
+        $post = $this->makePost();
+
+        $categories = collect([1,2,3])->map(function($i) {
+            return $this->makeCategory();
+        });
+
+        $post->setCategories($categories);
+        $this->assertCount(3, $post->fresh()->categories);
+
+        $post->setCategories(null);
+
+        $this->assertCount(0, $post->fresh()->categories);
     }
 }
