@@ -30,6 +30,7 @@ class PostResource extends Resource
             'title_image_banner'   => $this->titleImage('banner'),
             'title_image_web'      => $this->titleImage('web'),
             'title_image_thumb'    => $this->titleImage('thumb'),
+            'categories'           => CategoryResource::collection($this->categories)
         ];
     }
 }

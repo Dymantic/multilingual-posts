@@ -4,12 +4,13 @@ namespace Dymantic\MultilingualPosts\Tests\Feature;
 
 use Dymantic\MultilingualPosts\Post;
 use Dymantic\MultilingualPosts\PostResource;
+use Dymantic\MultilingualPosts\Tests\ComparesResources;
 use Dymantic\MultilingualPosts\Tests\TestCase;
 use Dymantic\MultilingualPosts\Tests\UsesModels;
 
 class CreatePostTest extends TestCase
 {
-    use UsesModels;
+    use UsesModels, ComparesResources;
 
     /**
      * @test
@@ -53,7 +54,7 @@ class CreatePostTest extends TestCase
         $response->assertStatus(201);
 
         $this->assertCount(1, Post::all());
-        $expected = (new PostResource(Post::first()))->toArray(request());
+        $expected = $this->getResourceResponseData(new PostResource(Post::first()));
 
         $this->assertEquals($expected, $response->decodeResponseJson());
     }

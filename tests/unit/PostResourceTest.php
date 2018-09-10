@@ -4,14 +4,18 @@
 namespace Dymantic\MultilingualPosts\Tests\unit;
 
 
+use Dymantic\MultilingualPosts\Category;
 use Dymantic\MultilingualPosts\Post;
 use Dymantic\MultilingualPosts\PostResource;
+use Dymantic\MultilingualPosts\Tests\ComparesResources;
 use Dymantic\MultilingualPosts\Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 
 class PostResourceTest extends TestCase
 {
+    use ComparesResources;
+
     /**
      * @test
      */
@@ -23,6 +27,20 @@ class PostResourceTest extends TestCase
             'description' => ['en' => 'test description', 'fr' => 'test descriptiony'],
             'body'        => ['en' => 'test body', 'fr' => 'test bodyy']
         ]);
+
+        $categoryA = Category::create([
+            'title' => ['en' => 'test title A', 'fr' => 'test titley A'],
+            'intro' => ['en' => 'test intro A', 'fr' => 'test introy A'],
+            'description' => ['en' => 'test description A', 'fr' => 'test descriptiony A']
+        ]);
+
+        $categoryB = Category::create([
+            'title' => ['en' => 'test title B', 'fr' => 'test titley B'],
+            'intro' => ['en' => 'test intro B', 'fr' => 'test introy B'],
+            'description' => ['en' => 'test description B', 'fr' => 'test descriptiony B']
+        ]);
+
+        $post->setCategories(collect([$categoryA, $categoryB]));
 
         $image = $post->setTitleImage(UploadedFile::fake()->image('testpic.png'));
 
@@ -47,9 +65,25 @@ class PostResourceTest extends TestCase
             'title_image_banner'   => $image->getUrl('banner'),
             'title_image_web'      => $image->getUrl('web'),
             'title_image_thumb'    => $image->getUrl('thumb'),
+            'categories' => [
+                [
+                    'id' => $categoryA->id,
+                    'slug' => 'test-title-a',
+                    'title' => ['en' => 'test title A', 'fr' => 'test titley A'],
+                    'intro' => ['en' => 'test intro A', 'fr' => 'test introy A'],
+                    'description' => ['en' => 'test description A', 'fr' => 'test descriptiony A']
+                ],
+                [
+                    'id' => $categoryB->id,
+                    'slug' => 'test-title-b',
+                    'title' => ['en' => 'test title B', 'fr' => 'test titley B'],
+                    'intro' => ['en' => 'test intro B', 'fr' => 'test introy B'],
+                    'description' => ['en' => 'test description B', 'fr' => 'test descriptiony B']
+                ]
+            ]
         ];
 
-        $this->assertEquals($expected, (new PostResource($post->fresh()))->toArray(request()));
+        $this->assertEquals($expected, $this->getResourceResponseData(new PostResource($post->fresh())));
     }
 
 

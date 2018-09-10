@@ -5,12 +5,13 @@ namespace Dymantic\MultilingualPosts\Tests\feature;
 
 
 use Dymantic\MultilingualPosts\PostResource;
+use Dymantic\MultilingualPosts\Tests\ComparesResources;
 use Dymantic\MultilingualPosts\Tests\UsesModels;
 use Dymantic\MultilingualPosts\Tests\TestCase;
 
 class FetchPaginatedPostsTest extends TestCase
 {
-    use UsesModels;
+    use UsesModels, ComparesResources;
 
     /**
      * @test
@@ -45,7 +46,7 @@ class FetchPaginatedPostsTest extends TestCase
         $response->assertStatus(200);
 
         $expected_posts_data = $posts->take(15)->map(function ($post) {
-            return (new PostResource($post))->toArray(request());
+            return $this->getResourceResponseData(new PostResource($post));
         })->all();
 
         $this->assertEquals($expected_posts_data, $response->decodeResponseJson('data'));
