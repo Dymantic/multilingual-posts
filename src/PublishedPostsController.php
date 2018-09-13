@@ -23,5 +23,7 @@ class PublishedPostsController extends Controller
     {
         $post = Post::findOrFail($postId);
         $post->retract();
+
+        return new PostResource($post->fresh());
     }
 }
