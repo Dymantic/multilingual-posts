@@ -29,38 +29,22 @@ class Category extends Model
 
     public static function create($category_attributes)
     {
-        if(!array_key_exists('title', $category_attributes)) {
+        $attributes = new CategoryAttributes($category_attributes);
+
+        if ($attributes->isMissingTitle() || $attributes->hasEmptyTitle()) {
             throw new InvalidAttributesException('a title is required to create a category');
         }
 
-        $valid_titles = collect($category_attributes['title'])->filter(function($title, $lang) {
-            return !empty($title);
-        });
-
-        if($valid_titles->count() < 1) {
-            throw new InvalidAttributesException('a title is required to create a category');
-        }
         return (new static())->query()->create($category_attributes);
     }
 
     public function safeUpdate($update_attributes)
     {
-        if(array_key_exists('title', $update_attributes)) {
-            $valid_titles = collect($update_attributes['title'])->filter(function($title, $lang) {
-                return !empty($title);
-            });
-
-            if($valid_titles->count() === 0) {
-                throw new InvalidAttributesException('a title is required for the category');
-            }
+        $attributes = new CategoryAttributes($update_attributes);
+        if ($attributes->hasEmptyTitle()) {
+            throw new InvalidAttributesException('a title is required for the category');
         }
-        $translations = collect($update_attributes)->flatMap(function($value, $field) {
-            if(is_string($value)) {
-                return [$field => [app()->getLocale() => $value]];
-            }
 
-            return [$field => $value];
-        })->all();
-        $this->update($translations);
+        $this->update($attributes->translated());
     }
 }
