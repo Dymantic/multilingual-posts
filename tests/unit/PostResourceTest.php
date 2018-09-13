@@ -29,14 +29,14 @@ class PostResourceTest extends TestCase
         ]);
 
         $categoryA = Category::create([
-            'title' => ['en' => 'test title A', 'fr' => 'test titley A'],
-            'intro' => ['en' => 'test intro A', 'fr' => 'test introy A'],
+            'title'       => ['en' => 'test title A', 'fr' => 'test titley A'],
+            'intro'       => ['en' => 'test intro A', 'fr' => 'test introy A'],
             'description' => ['en' => 'test description A', 'fr' => 'test descriptiony A']
         ]);
 
         $categoryB = Category::create([
-            'title' => ['en' => 'test title B', 'fr' => 'test titley B'],
-            'intro' => ['en' => 'test intro B', 'fr' => 'test introy B'],
+            'title'       => ['en' => 'test title B', 'fr' => 'test titley B'],
+            'intro'       => ['en' => 'test intro B', 'fr' => 'test introy B'],
             'description' => ['en' => 'test description B', 'fr' => 'test descriptiony B']
         ]);
 
@@ -58,26 +58,29 @@ class PostResourceTest extends TestCase
             'updated_at'           => $post->updated_at->format('d M Y'),
             'is_draft'             => false,
             'is_live'              => false,
-            'publish_date'         => Carbon::today()->addWeek()->format('d M Y'),
+            'publish_date_string'  => Carbon::today()->addWeek()->format('d M Y'),
+            'publish_date_year'    => Carbon::today()->addWeek()->year,
+            'publish_date_month'   => Carbon::today()->addWeek()->month - 1,
+            'publish_date_day'     => Carbon::today()->addWeek()->day,
             'author'               => null,
-            'first_published_on'         => Carbon::today()->format('d M Y'),
+            'first_published_on'   => Carbon::today()->format('d M Y'),
             'title_image_original' => $image->getUrl(),
             'title_image_banner'   => $image->getUrl('banner'),
             'title_image_web'      => $image->getUrl('web'),
             'title_image_thumb'    => $image->getUrl('thumb'),
-            'categories' => [
+            'categories'           => [
                 [
-                    'id' => $categoryA->id,
-                    'slug' => 'test-title-a',
-                    'title' => ['en' => 'test title A', 'fr' => 'test titley A'],
-                    'intro' => ['en' => 'test intro A', 'fr' => 'test introy A'],
+                    'id'          => $categoryA->id,
+                    'slug'        => 'test-title-a',
+                    'title'       => ['en' => 'test title A', 'fr' => 'test titley A'],
+                    'intro'       => ['en' => 'test intro A', 'fr' => 'test introy A'],
                     'description' => ['en' => 'test description A', 'fr' => 'test descriptiony A']
                 ],
                 [
-                    'id' => $categoryB->id,
-                    'slug' => 'test-title-b',
-                    'title' => ['en' => 'test title B', 'fr' => 'test titley B'],
-                    'intro' => ['en' => 'test intro B', 'fr' => 'test introy B'],
+                    'id'          => $categoryB->id,
+                    'slug'        => 'test-title-b',
+                    'title'       => ['en' => 'test title B', 'fr' => 'test titley B'],
+                    'intro'       => ['en' => 'test intro B', 'fr' => 'test introy B'],
                     'description' => ['en' => 'test description B', 'fr' => 'test descriptiony B']
                 ]
             ]

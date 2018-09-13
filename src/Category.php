@@ -29,22 +29,22 @@ class Category extends Model
 
     public static function create($category_attributes)
     {
-        $attributes = new CategoryAttributes($category_attributes);
+        $attributes = new TranslatableAttributes($category_attributes);
 
         if ($attributes->isMissingTitle() || $attributes->hasEmptyTitle()) {
             throw new InvalidAttributesException('a title is required to create a category');
         }
 
-        return (new static())->query()->create($category_attributes);
+        return (new static())->query()->create($attributes->translated((new static())->translatable, true));
     }
 
     public function safeUpdate($update_attributes)
     {
-        $attributes = new CategoryAttributes($update_attributes);
+        $attributes = new TranslatableAttributes($update_attributes);
         if ($attributes->hasEmptyTitle()) {
             throw new InvalidAttributesException('a title is required for the category');
         }
 
-        $this->update($attributes->translated());
+        $this->update($attributes->translated((new static())->translatable));
     }
 }

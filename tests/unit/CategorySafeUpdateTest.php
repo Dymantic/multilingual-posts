@@ -32,6 +32,25 @@ class CategorySafeUpdateTest extends TestCase
     /**
      *@test
      */
+    public function fields_not_included_in_the_update_are_not_overwritten()
+    {
+        $category = $this->makeCategory(['intro' => ['en' => 'old intro']]);
+
+        $category->safeUpdate([
+            'title' => 'new title',
+            'description' => 'new description'
+        ]);
+
+        $category = $category->fresh();
+
+        $this->assertEquals(['en' => 'new title'], $category->getTranslations('title'));
+        $this->assertEquals(['en' => 'old intro'], $category->getTranslations('intro'));
+        $this->assertEquals(['en' => 'new description'], $category->getTranslations('description'));
+    }
+
+    /**
+     *@test
+     */
     public function string_attributes_will_be_converted_to_default_lang_translations_and_overwrite_others()
     {
         $category = $this->makeCategory([

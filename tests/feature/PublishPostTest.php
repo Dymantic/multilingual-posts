@@ -4,13 +4,15 @@
 namespace Dymantic\MultilingualPosts\Tests\feature;
 
 
+use Dymantic\MultilingualPosts\PostResource;
+use Dymantic\MultilingualPosts\Tests\ComparesResources;
 use Dymantic\MultilingualPosts\Tests\UsesModels;
 use Dymantic\MultilingualPosts\Tests\TestCase;
 use Illuminate\Support\Carbon;
 
 class PublishPostTest extends TestCase
 {
-    use UsesModels;
+    use UsesModels, ComparesResources;
     /**
      *@test
      */
@@ -47,6 +49,26 @@ class PublishPostTest extends TestCase
             'is_draft' => false,
             'publish_date' => $publish_date
         ]);
+    }
+
+    /**
+     *@test
+     */
+    public function publishing_a_post_responds_with_fresh_post_data()
+    {
+        $this->withoutExceptionHandling();
+        $post = $this->makePost();
+
+        $response = $this->asLoggedInUser()->postJson("/multilingual-posts/published-posts", [
+            "post_id" => $post->id
+        ]);
+        $response->assertStatus(200);
+
+        $expected = $this->getResourceResponseData(new PostResource($post->fresh()));
+
+        $this->assertEquals($expected, $response->decodeResponseJson());
+
+        $this->assertDatabaseHas('multilingual_posts', ['id' => $post->id, 'is_draft' => false]);
     }
 
     /**

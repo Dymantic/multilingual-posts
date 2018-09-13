@@ -15,6 +15,8 @@ class PublishedPostsController extends Controller
         $date = Carbon::parse(request('publish_date', Carbon::today()->format('Y-m-d')));
         $post = Post::findOrFail(request('post_id'));
         $post->publish($date);
+
+        return new PostResource($post->fresh());
     }
 
     public function destroy($postId)

@@ -18,6 +18,12 @@ class CategoryCreateTest extends TestCase
         $category = Category::create(['title' => ['en' => 'Test category', 'fr' => 'Test titley']]);
 
         $this->assertInstanceOf(Category::class, $category);
+
+        $category = $category->fresh();
+
+        $this->assertEquals(['en' => 'Test category', 'fr' => 'Test titley'], $category->getTranslations('title'));
+        $this->assertEquals(['en' => ''], $category->getTranslations('intro'));
+        $this->assertEquals(['en' => ''], $category->getTranslations('description'));
     }
 
     /**

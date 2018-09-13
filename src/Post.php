@@ -32,27 +32,33 @@ class Post extends Model implements HasMedia
 
     public static function create($post_attributes)
     {
-        return PostFactory::make($post_attributes);
+        $attributes = new TranslatableAttributes($post_attributes);
+
+        if ($attributes->isMissingTitle() || $attributes->hasEmptyTitle()) {
+            throw new InvalidAttributesException('a title is required to create a post');
+        }
+        $model = new static();
+
+        $post = $model->query()->create($attributes->translated($model->translatable, true));
+
+        if($attributes->has('category_id')) {
+            $post->setCategories(Category::find($attributes->category_id));
+        }
+
+        return $post;
     }
 
     public function safeUpdate($post_attributes)
     {
-        if(array_key_exists('title', $post_attributes) && empty($post_attributes['title'])) {
+        $attributes = new TranslatableAttributes($post_attributes);
+        if($attributes->hasEmptyTitle()) {
             throw new InvalidAttributesException('the title attribute cannot be empty');
         }
 
-        $translated = collect($post_attributes)
-            ->flatMap(function($value, $field) {
-                if(in_array($field, $this->translatable) && is_string($value)) {
-                    return [$field => [app()->getLocale() => $value]];
-                }
-                return [$field => $value];
-            })->all();
+        $this->update($attributes->translated((new static())->translatable));
 
-        $this->update($translated);
-
-        if(array_key_exists('category_id', $post_attributes)) {
-            $this->setCategories(Category::find($post_attributes['category_id']));
+        if($attributes->has('category_id')) {
+            $this->setCategories(Category::find($attributes->category_id));
         }
     }
 
