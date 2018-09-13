@@ -38,7 +38,7 @@ class Post extends Model implements HasMedia
     public function safeUpdate($post_attributes)
     {
         if(array_key_exists('title', $post_attributes) && empty($post_attributes['title'])) {
-            throw new BadPostDataException('the title attribute cannot be empty');
+            throw new InvalidAttributesException('the title attribute cannot be empty');
         }
 
         $translated = collect($post_attributes)

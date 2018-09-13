@@ -22,7 +22,7 @@ class CategoriesController extends Controller
     {
         $category = Category::findOrFail($categoryId);
 
-        $category->update(request()->only(['title', 'intro', 'description']));
+        $category->safeUpdate(request()->only(['title', 'intro', 'description']));
     }
 
     public function destroy($categoryId)

@@ -4,7 +4,7 @@
 namespace Dymantic\MultilingualPosts\Tests\unit;
 
 
-use Dymantic\MultilingualPosts\BadPostDataException;
+use Dymantic\MultilingualPosts\InvalidAttributesException;
 use Dymantic\MultilingualPosts\Post;
 use Dymantic\MultilingualPosts\Tests\TestCase;
 use Dymantic\MultilingualPosts\Tests\UsesModels;
@@ -63,7 +63,7 @@ class PostCreateTest extends TestCase
 
             $this->fail('Expected exception to be thrown');
         } catch(\Exception $e) {
-            $this->assertInstanceOf(BadPostDataException::class, $e);
+            $this->assertInstanceOf(InvalidAttributesException::class, $e);
             $this->assertEquals('a title is required to create a post', $e->getMessage());
         }
     }
@@ -78,7 +78,7 @@ class PostCreateTest extends TestCase
 
             $this->fail('Expected exception to be thrown');
         } catch(\Exception $e) {
-            $this->assertInstanceOf(BadPostDataException::class, $e);
+            $this->assertInstanceOf(InvalidAttributesException::class, $e);
             $this->assertEquals('a title is required to create a post', $e->getMessage());
         }
     }

@@ -25,7 +25,7 @@ class PostFactory
     private static function guardAgainstMissingTitle($post_attributes)
     {
         if (!array_key_exists('title', $post_attributes) || empty($post_attributes['title'])) {
-            throw new BadPostDataException('a title is required to create a post');
+            throw new InvalidAttributesException('a title is required to create a post');
         }
     }
 

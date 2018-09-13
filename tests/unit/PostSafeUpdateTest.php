@@ -4,7 +4,7 @@
 namespace Dymantic\MultilingualPosts\Tests\unit;
 
 
-use Dymantic\MultilingualPosts\BadPostDataException;
+use Dymantic\MultilingualPosts\InvalidAttributesException;
 use Dymantic\MultilingualPosts\Tests\TestCase;
 use Dymantic\MultilingualPosts\Tests\UsesModels;
 
@@ -24,7 +24,7 @@ class PostSafeUpdateTest extends TestCase
 
             $this->fail('Expected exception to be thrown');
         } catch (\Exception $e) {
-            $this->assertInstanceOf(BadPostDataException::class, $e);
+            $this->assertInstanceOf(InvalidAttributesException::class, $e);
         }
     }
 

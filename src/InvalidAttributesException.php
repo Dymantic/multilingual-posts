@@ -4,7 +4,7 @@
 namespace Dymantic\MultilingualPosts;
 
 
-class BadPostDataException extends \Exception
+class InvalidAttributesException extends \Exception
 {
 
 }
