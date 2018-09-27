@@ -6,10 +6,12 @@ namespace Dymantic\MultilingualPosts\Tests\unit;
 
 use Dymantic\MultilingualPosts\Post;
 use Dymantic\MultilingualPosts\Tests\TestCase;
+use Dymantic\MultilingualPosts\Tests\UsesModels;
 use Illuminate\Support\Carbon;
 
 class PostSlugTest extends TestCase
 {
+    use UsesModels;
     /**
      *@test
      */
@@ -54,5 +56,19 @@ class PostSlugTest extends TestCase
         $post->save();
 
         $this->assertEquals('original-title', $post->fresh()->slug);
+    }
+
+    /**
+     *@test
+     */
+    public function a_post_can_be_found_by_its_slug()
+    {
+        $post = $this->makePost();
+        $this->assertEquals('test-title', $post->slug);
+
+        $found = Post::findBySlug('test-title');
+
+        $this->assertTrue($found->is($post->fresh()));
+
     }
 }

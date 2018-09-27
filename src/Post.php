@@ -190,4 +190,9 @@ class Post extends Model implements HasMedia
              ->performOnCollections(static::TITLE_IMAGES, static::BODY_IMAGES);
     }
 
+    public static function findBySlug($slug)
+    {
+        return static::where('slug', $slug)->firstOrFail();
+    }
+
 }
