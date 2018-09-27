@@ -47,4 +47,9 @@ class Category extends Model
 
         $this->update($attributes->translated((new static())->translatable));
     }
+
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'multilingual_category_post');
+    }
 }
