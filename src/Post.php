@@ -62,6 +62,11 @@ class Post extends Model implements HasMedia
         }
     }
 
+    public function scopeLive($query)
+    {
+        return $query->where('is_draft', false)->where('publish_date', '<=', Carbon::today()->endOfDay());
+    }
+
     public function sluggable(): array
     {
         return [
