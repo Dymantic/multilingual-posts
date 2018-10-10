@@ -195,4 +195,9 @@ class Post extends Model implements HasMedia
         return static::where('slug', $slug)->firstOrFail();
     }
 
+    public function asDataArray()
+    {
+        return PostDataPresenter::dataArray($this);
+    }
+
 }

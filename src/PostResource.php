@@ -12,28 +12,8 @@ class PostResource extends Resource
 
     public function toArray($request)
     {
-        return [
-            'id'                   => $this->id,
-            'title'                => $this->getTranslations('title'),
-            'slug'                 => $this->slug,
-            'intro'                => $this->getTranslations('intro'),
-            'description'          => $this->getTranslations('description'),
-            'body'                 => $this->getTranslations('body'),
-            'created_at'           => $this->created_at->format('d M Y'),
-            'updated_at'           => $this->updated_at->format('d M Y'),
-            'is_draft'             => $this->is_draft ?? true,
-            'is_live'              => $this->isLive(),
-            'publish_date_string'  => $this->publish_date ? $this->publish_date->format('d M Y') : null,
-            'publish_date_year'    => $this->publish_date ? $this->publish_date->year : null,
-            'publish_date_month'    => $this->publish_date ? $this->publish_date->month - 1 : null,
-            'publish_date_day'    => $this->publish_date ? $this->publish_date->day : null,
-            'author'               => null,
-            'first_published_on'   => $this->first_published_on ? $this->first_published_on->format('d M Y') : null,
-            'title_image_original' => $this->titleImage(),
-            'title_image_banner'   => $this->titleImage('banner'),
-            'title_image_web'      => $this->titleImage('web'),
-            'title_image_thumb'    => $this->titleImage('thumb'),
-            'categories'           => CategoryResource::collection($this->categories)
-        ];
+        $data = PostDataPresenter::dataArray($this);
+        $data['categories'] = CategoryResource::collection($this->categories);
+        return $data;
     }
 }
