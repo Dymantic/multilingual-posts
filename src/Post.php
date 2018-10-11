@@ -185,7 +185,7 @@ class Post extends Model implements HasMedia
              ->performOnCollections(static::TITLE_IMAGES, static::BODY_IMAGES);
 
         $this->addMediaConversion('thumb')
-             ->fit(Manipulations::FIT_MAX, 400, 300)
+             ->fit(Manipulations::FIT_CROP, 400, 300)
              ->optimize()
              ->performOnCollections(static::TITLE_IMAGES, static::BODY_IMAGES);
     }
