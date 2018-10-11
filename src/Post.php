@@ -200,4 +200,9 @@ class Post extends Model implements HasMedia
         return PostDataPresenter::dataArray($this);
     }
 
+    public function asDataArrayFor($lang)
+    {
+        return PostDataPresenter::dataArrayFor($lang, $this);
+    }
+
 }
