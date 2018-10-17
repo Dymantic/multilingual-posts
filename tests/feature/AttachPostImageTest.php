@@ -42,7 +42,7 @@ class AttachPostImageTest extends TestCase
         ]);
         $response->assertStatus(201);
 
-        $this->assertEquals($post->fresh()->getFirstMedia(Post::BODY_IMAGES)->getUrl('web'), $response->decodeResponseJson('src'));
+        $this->assertEquals($post->fresh()->getFirstMedia(Post::BODY_IMAGES)->getFullUrl('web'), $response->decodeResponseJson('src'));
     }
 
     /**
