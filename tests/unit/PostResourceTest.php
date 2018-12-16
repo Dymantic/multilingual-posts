@@ -58,7 +58,7 @@ class PostResourceTest extends TestCase
             'updated_at'           => $post->updated_at->format('d M Y'),
             'is_draft'             => false,
             'is_live'              => false,
-            'publish_date_string'  => Carbon::today()->addWeek()->format('d M Y'),
+            'publish_date_string'  => Carbon::today()->addWeek()->format('d F Y'),
             'publish_date_year'    => Carbon::today()->addWeek()->year,
             'publish_date_month'   => Carbon::today()->addWeek()->month - 1,
             'publish_date_day'     => Carbon::today()->addWeek()->day,
