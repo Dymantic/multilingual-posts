@@ -39,6 +39,28 @@ class CreatePostTest extends TestCase
     }
 
     /**
+     *@test
+     */
+    public function a_post_cannot_be_created_by_a_guest()
+    {
+        $category = $this->makeCategory();
+        $this->withExceptionHandling();
+        $post_data = [
+            'title'       => ['en' => 'Test Title', 'fr' => 'Test Titley'],
+            'intro'       => ['en' => 'Test Intro', 'fr' => 'Test Introy'],
+            'description' => ['en' => 'Test Description', 'fr' => 'Test Descriptiony'],
+        ];
+
+        $response = $this->asGuestUser()
+                         ->json("POST", "/multilingual-posts/posts/",
+                             array_merge($post_data, ['category_id' => $category->id]));
+        $response->assertStatus(401);
+
+
+        $this->assertCount(0, Post::all());
+    }
+
+    /**
      * @test
      */
     public function successfully_creating_a_post_responds_with_new_model_data()

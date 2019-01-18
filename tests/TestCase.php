@@ -30,6 +30,11 @@ abstract class TestCase extends Orchestra
         return $this;
     }
 
+    public function asGuestUser()
+    {
+        return $this;
+    }
+
     protected function assertDatabaseHasWithTranslations($table, $data)
     {
         $translated = collect($data)->flatMap(function ($value, $key) {
