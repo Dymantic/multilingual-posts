@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'multilingual-posts', 'middleware' => ['auth'], 'namespace' => 'Dymantic\MultilingualPosts'], function() {
+Route::group(['prefix' => 'multilingual-posts', 'middleware' => ['web', 'auth'], 'namespace' => 'Dymantic\MultilingualPosts'], function() {
     Route::get('posts', 'PostsController@index');
     Route::post('posts', 'PostsController@store');
     Route::get('posts/{postId}', 'PostsController@show');
