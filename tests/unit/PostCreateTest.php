@@ -44,11 +44,10 @@ class PostCreateTest extends TestCase
         $data = ['title' => ['en' => 'Test title']];
 
         $post = Post::create($data);
-
         $this->assertEquals(['en' => 'Test title'], $post->getTranslations('title'));
-        $this->assertEquals(['en' => ''], $post->getTranslations('intro'));
-        $this->assertEquals(['en' => ''], $post->getTranslations('description'));
-        $this->assertEquals(['en' => ''], $post->getTranslations('body'));
+        $this->assertEquals([], $post->getTranslations('intro'));
+        $this->assertEquals([], $post->getTranslations('description'));
+        $this->assertEquals([], $post->getTranslations('body'));
 
         $this->assertPostHasDefaults($post);
     }

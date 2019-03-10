@@ -22,8 +22,8 @@ class CategoryCreateTest extends TestCase
         $category = $category->fresh();
 
         $this->assertEquals(['en' => 'Test category', 'fr' => 'Test titley'], $category->getTranslations('title'));
-        $this->assertEquals(['en' => ''], $category->getTranslations('intro'));
-        $this->assertEquals(['en' => ''], $category->getTranslations('description'));
+        $this->assertEquals([], $category->getTranslations('intro'));
+        $this->assertEquals([], $category->getTranslations('description'));
     }
 
     /**
