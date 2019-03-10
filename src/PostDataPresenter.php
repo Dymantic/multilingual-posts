@@ -8,13 +8,14 @@ class PostDataPresenter
 {
     public static function dataArray($post)
     {
+        $locale = app()->getLocale();
         return [
             'id'                   => $post->id,
-            'title'                => $post->getTranslations('title'),
+            'title'                => $post->getTranslations('title') ?: [$locale => ""],
             'slug'                 => $post->slug,
-            'intro'                => $post->getTranslations('intro'),
-            'description'          => $post->getTranslations('description'),
-            'body'                 => $post->getTranslations('body'),
+            'intro'                => $post->getTranslations('intro') ?: [$locale => ""],
+            'description'          => $post->getTranslations('description') ?: [$locale => ""],
+            'body'                 => $post->getTranslations('body') ?: [$locale => ""],
             'created_at'           => $post->created_at->format('d M Y'),
             'updated_at'           => $post->updated_at->format('d M Y'),
             'is_draft'             => $post->is_draft ?? true,

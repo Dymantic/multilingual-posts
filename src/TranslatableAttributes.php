@@ -52,7 +52,6 @@ class TranslatableAttributes
 
             return [$field => $value];
         })->all();
-
     }
 
     public function has($field)
