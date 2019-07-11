@@ -140,6 +140,30 @@ class Post extends Model implements HasMedia
         $this->save();
     }
 
+    public function next()
+    {
+        if(!$this->isLive()) {
+            return null;
+        }
+
+        return static::live()
+                     ->where('publish_date', '>', $this->publish_date)
+                     ->orderBy('publish_date')
+                     ->first();
+    }
+
+    public function prev()
+    {
+        if(!$this->isLive()) {
+            return null;
+        }
+
+        return static::live()
+                     ->where('publish_date', '<', $this->publish_date)
+                     ->orderBy('publish_date', 'desc')
+                     ->first();
+    }
+
     public function titleImage($conversion = '')
     {
         $image = $this->getFirstMedia(static::TITLE_IMAGES);

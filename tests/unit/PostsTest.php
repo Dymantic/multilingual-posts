@@ -24,6 +24,36 @@ class PostsTest extends TestCase
     /**
      *@test
      */
+    public function previous_post_and_next_post()
+    {
+        $one = $this->makePost(Carbon::today()->subDays(5), true);
+        $two = $this->makePost(Carbon::today()->subDays(4), false);
+        $three = $this->makePost(Carbon::today()->subDays(3), true);
+        $four = $this->makePost(Carbon::today()->subDays(2), true);
+        $five = $this->makePost(Carbon::today()->subDays(1), false);
+
+        $this->assertTrue($one->next()->is($three));
+        $this->assertNull($one->prev());
+
+        //retracted posts have no next/prev
+        $this->assertNull($two->next());
+        $this->assertNull($two->prev());
+
+        $this->assertTrue($three->next()->is($four));
+        $this->assertTrue($three->prev()->is($one));
+
+        $this->assertNull($four->next());
+        $this->assertTrue($four->prev()->is($three));
+
+        $this->assertNull($five->next());
+        $this->assertNull($five->prev());
+
+    }
+
+
+    /**
+     *@test
+     */
     public function a_post_can_be_presented_as_a_data_array()
     {
         $post = Post::create([
@@ -105,6 +135,27 @@ class PostsTest extends TestCase
         ];
 
         $this->assertEquals($expected, $post->asDataArrayFor('en'));
+    }
+
+    private function makePost($published, $is_live, $overrides = [])
+    {
+        $default = [
+            'title'       => ['en' => 'test title', 'fr' => 'test titley'],
+            'intro'       => ['en' => 'test intro', 'fr' => 'test introy'],
+            'description' => ['en' => 'test description', 'fr' => 'test descriptiony'],
+            'body'        => ['en' => 'test body', 'fr' => 'test bodyy']
+        ];
+        $post = Post::create(array_merge($default, $overrides));
+
+        if($published) {
+            $post->publish($published);
+        }
+
+        if(!$is_live) {
+            $post->retract();
+        }
+
+        return $post;
     }
 
 
