@@ -204,7 +204,7 @@ class Post extends Model implements HasMedia
              ->performOnCollections(static::TITLE_IMAGES);
 
         $this->addMediaConversion('web')
-             ->fit(Manipulations::FIT_MAX, 800, 600)
+             ->fit(Manipulations::FIT_MAX, 800, 1800)
              ->optimize()
              ->performOnCollections(static::TITLE_IMAGES, static::BODY_IMAGES);
 
