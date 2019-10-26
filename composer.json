@@ -1,38 +1,37 @@
 {
-    "name": "dymantic/multilingual-posts",
-    "description": "Laravel Model and helpers for multilingual posts",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Michael Joyner",
-            "email": "joyner.michael@gmail.com"
-        }
-    ],
-    "require": {
-        "cviebrock/eloquent-sluggable": "^4.5",
-        "spatie/laravel-medialibrary": "^7.0.0",
-        "spatie/laravel-translatable": "^3.0"
-    },
-
-    "require-dev": {
-        "orchestra/testbench": "~3.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "Dymantic\\MultilingualPosts\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Dymantic\\MultilingualPosts\\Tests\\": "tests/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Dymantic\\MultilingualPosts\\MultilingualPostsServiceProvider"
-            ]
-        }
+  "name": "dymantic/multilingual-posts",
+  "description": "Laravel Model and helpers for multilingual posts",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Michael Joyner",
+      "email": "joyner.michael@gmail.com"
     }
+  ],
+  "require": {
+    "cviebrock/eloquent-sluggable": "^6.0",
+    "spatie/laravel-medialibrary": "^7.0.0",
+    "spatie/laravel-translatable": "^4.0"
+  },
+  "require-dev": {
+    "orchestra/testbench": "~3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Dymantic\\MultilingualPosts\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Dymantic\\MultilingualPosts\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Dymantic\\MultilingualPosts\\MultilingualPostsServiceProvider"
+      ]
+    }
+  }
 }
