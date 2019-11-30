@@ -9,7 +9,7 @@ class PostDataPresenter
     public static function dataArray($post)
     {
         $locale = app()->getLocale();
-        return [
+        $data = [
             'id'                   => $post->id,
             'title'                => $post->getTranslations('title') ?: [$locale => ""],
             'slug'                 => $post->slug,
@@ -27,15 +27,14 @@ class PostDataPresenter
             'author'               => null,
             'first_published_on'   => $post->first_published_on ? $post->first_published_on->format('d M Y') : null,
             'title_image_original' => $post->titleImage(),
-            'title_image_banner'   => $post->titleImage('banner'),
-            'title_image_web'      => $post->titleImage('web'),
-            'title_image_thumb'    => $post->titleImage('thumb'),
         ];
+
+        return array_merge($data, static::titleImageConversions($post));
     }
 
     public static function dataArrayFor($lang, $post)
     {
-        return [
+        $data = [
             'id'                   => $post->id,
             'title'                => $post->getTranslation('title', $lang),
             'slug'                 => $post->slug,
@@ -53,9 +52,22 @@ class PostDataPresenter
             'author'               => null,
             'first_published_on'   => $post->first_published_on ? $post->first_published_on->format('d M Y') : null,
             'title_image_original' => $post->titleImage(),
-            'title_image_banner'   => $post->titleImage('banner'),
-            'title_image_web'      => $post->titleImage('web'),
-            'title_image_thumb'    => $post->titleImage('thumb'),
         ];
+
+        return array_merge($data, static::titleImageConversions($post));
+    }
+
+    private static function titleImageConversions($post)
+    {
+        $image = $post->getFirstMedia(Post::TITLE_IMAGES);
+
+        if(!$image) {
+            return [];
+        }
+
+        return collect($image->getMediaConversionNames())
+            ->flatMap(function($name) use ($post) {
+                return ["title_image_{$name}" => $post->titleImage($name)];
+            })->all();
     }
 }
