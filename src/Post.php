@@ -210,9 +210,15 @@ class Post extends Model implements HasMedia
 
     private function addConversion(PostImageConversion $conversion)
     {
-        $this->addMediaConversion($conversion->name)
+        if($conversion->optimize) {
+            return $this->addMediaConversion($conversion->name)
+                        ->fit($conversion->manipulation, $conversion->width, $conversion->height)
+                        ->optimize()
+                        ->performOnCollections(...$conversion->collections);
+        }
+
+        return $this->addMediaConversion($conversion->name)
              ->fit($conversion->manipulation, $conversion->width, $conversion->height)
-             ->optimize()
              ->performOnCollections(...$conversion->collections);
     }
 
