@@ -41,7 +41,7 @@ class Post extends Model implements HasMedia
 
         $post = $model->query()->create($attributes->translated($model->translatable, true));
 
-        if($attributes->has('category_id')) {
+        if ($attributes->has('category_id')) {
             $post->setCategories(Category::find($attributes->category_id));
         }
 
@@ -51,13 +51,13 @@ class Post extends Model implements HasMedia
     public function safeUpdate($post_attributes)
     {
         $attributes = new TranslatableAttributes($post_attributes);
-        if($attributes->hasEmptyTitle()) {
+        if ($attributes->hasEmptyTitle()) {
             throw new InvalidAttributesException('the title attribute cannot be empty');
         }
 
         $this->update($attributes->translated((new static())->translatable));
 
-        if($attributes->has('category_id')) {
+        if ($attributes->has('category_id')) {
             $this->setCategories(Category::find($attributes->category_id));
         }
     }
@@ -142,7 +142,7 @@ class Post extends Model implements HasMedia
 
     public function next()
     {
-        if(!$this->isLive()) {
+        if (!$this->isLive()) {
             return null;
         }
 
@@ -154,7 +154,7 @@ class Post extends Model implements HasMedia
 
     public function prev()
     {
-        if(!$this->isLive()) {
+        if (!$this->isLive()) {
             return null;
         }
 
@@ -198,20 +198,49 @@ class Post extends Model implements HasMedia
 
     public function registerMediaConversions(Media $media = null)
     {
-        $this->addMediaConversion('banner')
-             ->fit(Manipulations::FIT_MAX, 1400, 1000)
-             ->optimize()
-             ->performOnCollections(static::TITLE_IMAGES);
+        $conversions = collect(config('multilingual-posts.conversions') ?? $this->defaultConversions());
+        $conversions
+            ->map(function ($conversion) {
+                return new PostImageConversion($conversion);
+            })
+            ->each(function ($conversion) {
+                $this->addConversion($conversion);
+            });
+    }
 
-        $this->addMediaConversion('web')
-             ->fit(Manipulations::FIT_MAX, 800, 1800)
+    private function addConversion(PostImageConversion $conversion)
+    {
+        $this->addMediaConversion($conversion->name)
+             ->fit($conversion->manipulation, $conversion->width, $conversion->height)
              ->optimize()
-             ->performOnCollections(static::TITLE_IMAGES, static::BODY_IMAGES);
+             ->performOnCollections(...$conversion->collections);
+    }
 
-        $this->addMediaConversion('thumb')
-             ->fit(Manipulations::FIT_CROP, 400, 300)
-             ->optimize()
-             ->performOnCollections(static::TITLE_IMAGES, static::BODY_IMAGES);
+    private function defaultConversions()
+    {
+        return [
+            ['name'         => 'thumb',
+             'manipulation' => 'crop',
+             'width'        => 400,
+             'height'       => 300,
+             'title'        => true,
+             'post'         => true
+            ],
+            ['name'         => 'web',
+             'manipulation' => 'fit',
+             'width'        => 800,
+             'height'       => 1800,
+             'title'        => true,
+             'post'         => true
+            ],
+            ['name'         => 'banner',
+             'manipulation' => 'fit',
+             'width'        => 1400,
+             'height'       => 1000,
+             'title'        => true,
+             'post'         => false
+            ],
+        ];
     }
 
     public static function findBySlug($slug)

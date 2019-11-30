@@ -44,6 +44,66 @@ class PostTitleImagesTest extends TestCase
     /**
      *@test
      */
+    public function standard_conversions_are_generated_if_no_config()
+    {
+        config(['multilingual-posts.conversions' => null]);
+
+        $post = $this->makePost();
+        $image = $post->setTitleImage(UploadedFile::fake()->image('testpic.png', 3000, 2000))->fresh();
+
+        $this->assertTrue($image->hasGeneratedConversion('web'), 'web conversion not generated');
+        $this->assertTrue($image->hasGeneratedConversion('thumb'), 'thumb conversion not generated');
+        $this->assertTrue($image->hasGeneratedConversion('banner'), 'banner conversion not generated');
+
+        $thumbSize = getimagesize($image->getPath('thumb'));
+        $this->assertEquals(400, $thumbSize[0]);
+        $this->assertEquals(300, $thumbSize[1]);
+
+        $webSize = getimagesize($image->getPath('web'));
+        $this->assertEquals(800, $webSize[0]);
+        $this->assertEquals(533, $webSize[1]);
+
+        $bannerSize = getimagesize($image->getPath('banner'));
+        $this->assertEquals(1400, $bannerSize[0]);
+        $this->assertEquals(933, $bannerSize[1]);
+    }
+
+    /**
+     *@test
+     */
+    public function conversions_can_be_generated_from_config()
+    {
+        config(['multilingual-posts.conversions' => [
+            ['name' => 'thumb', 'manipulation' => 'crop', 'width' => 300, 'height' => 200, 'title' => true, 'post' => false],
+            ['name' => 'web', 'manipulation' => 'fit', 'width' => 1600, 'height' => 1000, 'title' => true, 'post' => false],
+            ['name' => 'banner', 'manipulation' => 'crop', 'width' => 2000, 'height' => 1000, 'title' => true, 'post' => false],
+        ]]);
+
+        $post = $this->makePost();
+        $image = $post->setTitleImage(UploadedFile::fake()->image('testpic.png', 3000, 2000))->fresh();
+
+        $this->assertTrue($image->hasGeneratedConversion('web'), 'web conversion not generated');
+        $this->assertTrue($image->hasGeneratedConversion('thumb'), 'thumb conversion not generated');
+        $this->assertTrue($image->hasGeneratedConversion('banner'), 'banner conversion not generated');
+
+        $thumbSize = getimagesize($image->getPath('thumb'));
+        $this->assertEquals(300, $thumbSize[0]);
+        $this->assertEquals(200, $thumbSize[1]);
+
+        $webSize = getimagesize($image->getPath('web'));
+        $this->assertEquals(1500, $webSize[0]);
+        $this->assertEquals(1000, $webSize[1]);
+
+        $bannerSize = getimagesize($image->getPath('banner'));
+        $this->assertEquals(2000, $bannerSize[0]);
+        $this->assertEquals(1000, $bannerSize[1]);
+
+
+    }
+
+    /**
+     *@test
+     */
     public function the_title_image_src_can_be_queried()
     {
         $post = $this->makePost();
