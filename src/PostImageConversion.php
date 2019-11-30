@@ -21,6 +21,7 @@ class PostImageConversion
         $this->height = $attributes['height'];
         $this->manipulation = $this->getManipulation($attributes['manipulation']);
         $this->collections = $this->getCollections($attributes['title'], $attributes['post']);
+        $this->optimize = $attributes['optimize'] ?? false;
     }
 
     private function getManipulation($strategy)

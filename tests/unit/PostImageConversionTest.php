@@ -30,6 +30,7 @@ class PostImageConversionTest extends TestCase
         $this->assertEquals(1600, $conversion->width);
         $this->assertEquals(1000, $conversion->height);
         $this->assertEquals([Post::BODY_IMAGES], $conversion->collections);
+        $this->assertFalse($conversion->optimize);
     }
 
     /**
@@ -43,7 +44,8 @@ class PostImageConversionTest extends TestCase
             'width'        => 400,
             'height'       => 400,
             'title'        => true,
-            'post'         => true
+            'post'         => true,
+            'optimize' => false,
         ]);
 
         $this->assertEquals('thumb', $conversion->name);
@@ -51,6 +53,7 @@ class PostImageConversionTest extends TestCase
         $this->assertEquals(400, $conversion->width);
         $this->assertEquals(400, $conversion->height);
         $this->assertEquals([Post::TITLE_IMAGES, Post::BODY_IMAGES], $conversion->collections);
+        $this->assertFalse($conversion->optimize);
     }
 
     /**
@@ -64,7 +67,8 @@ class PostImageConversionTest extends TestCase
             'width'        => 2000,
             'height'       => 1000,
             'title'        => true,
-            'post'         => false
+            'post'         => false,
+            'optimize' => true,
         ]);
 
         $this->assertEquals('banner', $conversion->name);
@@ -72,5 +76,6 @@ class PostImageConversionTest extends TestCase
         $this->assertEquals(2000, $conversion->width);
         $this->assertEquals(1000, $conversion->height);
         $this->assertEquals([Post::TITLE_IMAGES], $conversion->collections);
+        $this->assertTrue($conversion->optimize);
     }
 }
