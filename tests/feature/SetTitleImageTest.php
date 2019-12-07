@@ -5,6 +5,7 @@ namespace Dymantic\MultilingualPosts\Tests\feature;
 
 
 use Dymantic\MultilingualPosts\Post;
+use Dymantic\MultilingualPosts\TestMediaBroker;
 use Dymantic\MultilingualPosts\Tests\UsesModels;
 use Dymantic\MultilingualPosts\Tests\TestCase;
 use Illuminate\Http\UploadedFile;
@@ -18,6 +19,8 @@ class SetTitleImageTest extends TestCase
      */
     public function a_title_image_can_be_set_for_the_post()
     {
+        config(['multilingual-posts.media-broker' => TestMediaBroker::class]);
+
         $this->withoutExceptionHandling();
         $post = $this->makePost();
 
@@ -27,24 +30,7 @@ class SetTitleImageTest extends TestCase
                          ]);
         $response->assertStatus(200);
 
-        $this->assertCount(1, $post->getMedia(Post::TITLE_IMAGES));
-    }
-
-    /**
-     *@test
-     */
-    public function successfully_setting_title_image_responds_with_image_src()
-    {
-        $this->withoutExceptionHandling();
-        $post = $this->makePost();
-
-        $response = $this->asLoggedInUser()
-                         ->postJson("/multilingual-posts/posts/{$post->id}/title-image", [
-                             'image' => UploadedFile::fake()->image('testpic.png')
-                         ]);
-        $response->assertStatus(200);
-
-        $this->assertEquals($post->fresh()->getFirstMedia(Post::TITLE_IMAGES)->getUrl('web'), $response->decodeResponseJson('image_src'));
+        $this->assertEquals('test-image-from-test-broker.png', $response->decodeResponseJson('image_src'));
     }
 
     /**

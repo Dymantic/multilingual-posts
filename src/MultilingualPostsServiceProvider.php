@@ -34,6 +34,9 @@ class MultilingualPostsServiceProvider extends ServiceProvider
 
     public function register()
     {
-
+        $this->app->bind(MediaBroker::class, function() {
+            $class = config('multilingual-posts.media-broker') ?? MediaLibraryMediaBroker::class;
+            return new $class;
+        });
     }
 }

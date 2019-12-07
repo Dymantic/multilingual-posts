@@ -26,7 +26,7 @@ class PostDataPresenter
             'publish_date_day'    => $post->publish_date ? $post->publish_date->day : null,
             'author'               => null,
             'first_published_on'   => $post->first_published_on ? $post->first_published_on->format('d M Y') : null,
-            'title_image_original' => $post->titleImage(),
+            'title_image_original' => $post->titleImage()->src,
         ];
 
         return array_merge($data, static::titleImageConversions($post));
@@ -51,7 +51,7 @@ class PostDataPresenter
             'publish_date_day'    => $post->publish_date ? $post->publish_date->day : null,
             'author'               => null,
             'first_published_on'   => $post->first_published_on ? $post->first_published_on->format('d M Y') : null,
-            'title_image_original' => $post->titleImage(),
+            'title_image_original' => $post->titleImage()->src,
         ];
 
         return array_merge($data, static::titleImageConversions($post));
@@ -59,15 +59,15 @@ class PostDataPresenter
 
     private static function titleImageConversions($post)
     {
-        $image = $post->getFirstMedia(Post::TITLE_IMAGES);
+        $image = $post->titleImage();
 
         if(!$image) {
             return [];
         }
 
-        return collect($image->getMediaConversionNames())
-            ->flatMap(function($name) use ($post) {
-                return ["title_image_{$name}" => $post->titleImage($name)];
+        return collect($image->conversions)
+            ->flatMap(function($src, $name) {
+                return ["title_image_{$name}" => $src];
             })->all();
     }
 }

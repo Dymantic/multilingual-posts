@@ -13,9 +13,9 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\Translatable\HasTranslations;
 
-class Post extends Model implements HasMedia
+class Post extends Model
 {
-    use HasTranslations, Sluggable, HasMediaTrait;
+    use HasTranslations, Sluggable;
 
     const TITLE_IMAGES = 'title-images';
     const BODY_IMAGES = 'body-images';
@@ -164,89 +164,19 @@ class Post extends Model implements HasMedia
                      ->first();
     }
 
-    public function titleImage($conversion = '')
+    public function titleImage()
     {
-        $image = $this->getFirstMedia(static::TITLE_IMAGES);
-
-        if (!$image) {
-            return null;
-        }
-
-        return $image->getUrl($conversion);
+        return app(MediaBroker::class)->titleImage($this);
     }
 
     public function setTitleImage($file)
     {
-        $this->clearTitleImage();
-
-        return $this->addMedia($file)
-                    ->preservingOriginal()
-                    ->toMediaCollection(static::TITLE_IMAGES);
-    }
-
-    public function clearTitleImage()
-    {
-        $this->clearMediaCollection(static::TITLE_IMAGES);
+        return app(MediaBroker::class)->setTitleImage($this, $file);
     }
 
     public function attachImage($file)
     {
-        return $this->addMedia($file)
-                    ->preservingOriginal()
-                    ->toMediaCollection(static::BODY_IMAGES);
-    }
-
-    public function registerMediaConversions(Media $media = null)
-    {
-        $conversions = collect(config('multilingual-posts.conversions') ?? $this->defaultConversions());
-        $conversions
-            ->map(function ($conversion) {
-                return new PostImageConversion($conversion);
-            })
-            ->each(function ($conversion) {
-                $this->addConversion($conversion);
-            });
-    }
-
-    private function addConversion(PostImageConversion $conversion)
-    {
-        if($conversion->optimize) {
-            return $this->addMediaConversion($conversion->name)
-                        ->fit($conversion->manipulation, $conversion->width, $conversion->height)
-                        ->optimize()
-                        ->performOnCollections(...$conversion->collections);
-        }
-
-        return $this->addMediaConversion($conversion->name)
-             ->fit($conversion->manipulation, $conversion->width, $conversion->height)
-             ->performOnCollections(...$conversion->collections);
-    }
-
-    private function defaultConversions()
-    {
-        return [
-            ['name'         => 'thumb',
-             'manipulation' => 'crop',
-             'width'        => 400,
-             'height'       => 300,
-             'title'        => true,
-             'post'         => true
-            ],
-            ['name'         => 'web',
-             'manipulation' => 'fit',
-             'width'        => 800,
-             'height'       => 1800,
-             'title'        => true,
-             'post'         => true
-            ],
-            ['name'         => 'banner',
-             'manipulation' => 'fit',
-             'width'        => 1400,
-             'height'       => 1000,
-             'title'        => true,
-             'post'         => false
-            ],
-        ];
+        return app(MediaBroker::class)->attachImage($this, $file);
     }
 
     public static function findBySlug($slug)
