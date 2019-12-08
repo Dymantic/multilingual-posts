@@ -5,6 +5,7 @@ namespace Dymantic\MultilingualPosts;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
@@ -26,15 +27,21 @@ class MediaModel extends Model implements HasMedia
 
     private function addConversion(PostImageConversion $conversion)
     {
+        $manipulations = [
+            'crop' => Manipulations::FIT_CROP,
+            'max' => Manipulations::FIT_MAX,
+        ];
+        $manipulation = $manipulations[$conversion->manipulation] ?? Manipulations::FIT_MAX;
+
         if($conversion->optimize) {
             return $this->addMediaConversion($conversion->name)
-                        ->fit($conversion->manipulation, $conversion->width, $conversion->height)
+                        ->fit($manipulation, $conversion->width, $conversion->height)
                         ->optimize()
                         ->performOnCollections(...$conversion->collections);
         }
 
         return $this->addMediaConversion($conversion->name)
-                    ->fit($conversion->manipulation, $conversion->width, $conversion->height)
+                    ->fit($manipulation, $conversion->width, $conversion->height)
                     ->performOnCollections(...$conversion->collections);
     }
 

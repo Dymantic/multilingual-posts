@@ -4,6 +4,7 @@
 namespace Dymantic\MultilingualPosts\Tests\unit;
 
 
+use Dymantic\MultilingualPosts\MediaLibraryMediaBroker;
 use Dymantic\MultilingualPosts\Post;
 use Dymantic\MultilingualPosts\PostDataPresenter;
 use Dymantic\MultilingualPosts\Tests\TestCase;
@@ -12,6 +13,13 @@ use Illuminate\Support\Carbon;
 
 class PostDataPresenterTest extends TestCase
 {
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        config(['multilingual-posts.media-broker' => MediaLibraryMediaBroker::class]);
+    }
     /**
      *@test
      */

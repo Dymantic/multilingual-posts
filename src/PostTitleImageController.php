@@ -15,6 +15,6 @@ class PostTitleImageController extends Controller
         ]);
         $image = Post::findOrFail($postId)->setTitleImage(request('image'));
 
-        return ['image_src' => $image->getUrl('web')];
+        return ['image_src' => $image->getUrl(ImageConversions::useForTitleImageUploadResponse())];
     }
 }

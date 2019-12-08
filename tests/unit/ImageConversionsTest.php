@@ -60,4 +60,20 @@ class ImageConversionsTest extends TestCase
             return $conversion->name === 'banner';
         }));
     }
+
+    /**
+     *@test
+     */
+    public function it_gets_correct_upload_response_conversion_from_config()
+    {
+        config(['multilingual-posts.upload-response-src' => ['title' => 'banner', 'post' => 'web']]);
+
+        $this->assertEquals('banner', ImageConversions::useForTitleImageUploadResponse());
+        $this->assertEquals('web', ImageConversions::useForPostImageUploadResponse());
+
+        config(['multilingual-posts.upload-response-src' => null]);
+
+        $this->assertEquals('', ImageConversions::useForTitleImageUploadResponse());
+        $this->assertEquals('', ImageConversions::useForPostImageUploadResponse());
+    }
 }

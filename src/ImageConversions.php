@@ -15,6 +15,16 @@ class ImageConversions
             });
     }
 
+    public static function useForTitleImageUploadResponse()
+    {
+        return config('multilingual-posts.upload-response-src.title', '');
+    }
+
+    public static function useForPostImageUploadResponse()
+    {
+        return config('multilingual-posts.upload-response-src.post', '');
+    }
+
     private static function defaultConversions()
     {
         return [

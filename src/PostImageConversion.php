@@ -4,7 +4,6 @@
 namespace Dymantic\MultilingualPosts;
 
 
-use Spatie\Image\Manipulations;
 
 class PostImageConversion
 {
@@ -27,11 +26,11 @@ class PostImageConversion
     private function getManipulation($strategy)
     {
         $fits = [
-            'crop' => Manipulations::FIT_CROP,
-            'fit'  => Manipulations::FIT_MAX,
+            'crop' => 'crop',
+            'fit'  => 'max',
         ];
 
-        return $fits[$strategy] ?? Manipulations::FIT_MAX;
+        return $fits[$strategy] ?? 'max';
     }
 
     private function getCollections($title, $body)

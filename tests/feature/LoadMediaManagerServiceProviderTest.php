@@ -5,6 +5,7 @@ namespace Dymantic\MultilingualPosts\Tests\feature;
 
 
 use Dymantic\MultilingualPosts\MediaLibraryMediaBroker;
+use Dymantic\MultilingualPosts\NullMediaBroker;
 use Dymantic\MultilingualPosts\TestMediaBroker;
 use Dymantic\MultilingualPosts\Tests\TestCase;
 
@@ -26,13 +27,13 @@ class LoadMediaManagerServiceProviderTest extends TestCase
     /**
      *@test
      */
-    public function defaults_to_media_library_media_broker()
+    public function defaults_to_null_media_broker()
     {
         config(['multilingual-posts.media-broker' => null]);
 
         $broker = app(\Dymantic\MultilingualPosts\MediaBroker::class);
 
-        $this->assertInstanceOf(MediaLibraryMediaBroker::class, $broker);
+        $this->assertInstanceOf(NullMediaBroker::class, $broker);
         $this->assertInstanceOf(\Dymantic\MultilingualPosts\MediaBroker::class, $broker);
     }
 }
