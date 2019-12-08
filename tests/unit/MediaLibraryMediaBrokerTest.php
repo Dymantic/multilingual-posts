@@ -80,6 +80,7 @@ class MediaLibraryMediaBrokerTest extends TestCase
         $this->assertEquals(1400, $bannerSize[0]);
         $this->assertEquals(933, $bannerSize[1]);
 
+
         $this->assertEquals($title_image->getUrl('web'), $image->getUrl('web'));
         $this->assertEquals($title_image->getUrl('thumb'), $image->getUrl('thumb'));
         $this->assertEquals($title_image->getUrl('banner'), $image->getUrl('banner'));

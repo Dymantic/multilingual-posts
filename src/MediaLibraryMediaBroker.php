@@ -4,6 +4,7 @@
 namespace Dymantic\MultilingualPosts;
 
 
+use Illuminate\Support\Arr;
 use Spatie\MediaLibrary\Models\Media;
 
 class MediaLibraryMediaBroker implements MediaBroker
@@ -22,6 +23,9 @@ class MediaLibraryMediaBroker implements MediaBroker
     private function getImageConversions(Media $image)
     {
         return ImageConversions::configured()
+            ->filter(function($conversion) use ($image) {
+                return in_array($image->collection_name, $conversion->collections);
+            })
             ->flatMap(function($conversion) use ($image) {
                 return [$conversion->name => $this->attemptToGetConversionName($image, $conversion->name)];
             })->all();
