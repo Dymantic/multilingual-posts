@@ -21,12 +21,20 @@ class MediaLibraryMediaBroker implements MediaBroker
 
     private function getImageConversions(Media $image)
     {
-        return $image
-            ->fresh()
-            ->getGeneratedConversions()
-            ->flatMap(function($exists, $name) use ($image) {
-                return [$name => $image->getUrl($name)];
+        return ImageConversions::configured()
+            ->flatMap(function($conversion) use ($image) {
+                return [$conversion->name => $this->attemptToGetConversionName($image, $conversion->name)];
             })->all();
+    }
+
+    private function attemptToGetConversionName($image, $conversion)
+    {
+        $src = "";
+        try {
+            $src = $image->getUrl($conversion);
+        } catch (\Exception $e) {}
+
+        return $src;
     }
 
     public function titleImage($post): Image

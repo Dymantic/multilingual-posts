@@ -19,12 +19,7 @@ class MediaModel extends Model implements HasMedia
 
     public function registerMediaConversions(Media $media = null)
     {
-        $conversions = collect(config('multilingual-posts.conversions') ?? $this->defaultConversions());
-        $conversions
-            ->map(function ($conversion) {
-                return new PostImageConversion($conversion);
-            })
-            ->each(function ($conversion) {
+            ImageConversions::configured()->each(function ($conversion) {
                 $this->addConversion($conversion);
             });
     }
