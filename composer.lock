@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "468829dd9eb19c4b48e40462b9c5e7a2",
+    "content-hash": "b3379fb41b84be447afdfdcd4c4bc745",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -3470,6 +3470,54 @@
                 "instantiate"
             ],
             "time": "2019-03-17T17:37:11+00:00"
+        },
+        {
+            "name": "dymantic/sml-mediabroker",
+            "version": "v0.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Dymantic/sml-mediabroker.git",
+                "reference": "b1666bcb0438ae5d595c21e90c88de704d730b74"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Dymantic/sml-mediabroker/zipball/b1666bcb0438ae5d595c21e90c88de704d730b74",
+                "reference": "b1666bcb0438ae5d595c21e90c88de704d730b74",
+                "shasum": ""
+            },
+            "require": {
+                "spatie/laravel-medialibrary": "^7.0"
+            },
+            "require-dev": {
+                "dymantic/multilingual-posts": "^0.7",
+                "orchestra/testbench": "^4.0",
+                "phpunit/phpunit": "^8.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Dymantic\\SmlMediaBroker\\SmlMediaBrokerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dymantic\\SmlMediaBroker\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Joyner",
+                    "email": "joyner.michael@gmail.com"
+                }
+            ],
+            "description": "Media broker fir dymantic/multilingual-posts that uses spatie/laravel-medialibrary",
+            "time": "2019-12-10T02:13:18+00:00"
         },
         {
             "name": "fzaninotto/faker",

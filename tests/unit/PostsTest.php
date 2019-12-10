@@ -5,6 +5,7 @@ namespace Dymantic\MultilingualPosts\Tests\Unit;
 use Dymantic\MultilingualPosts\MediaLibraryMediaBroker;
 use Dymantic\MultilingualPosts\Post;
 use Dymantic\MultilingualPosts\Tests\TestCase;
+use Dymantic\SmlMediaBroker\SmlMediaBroker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 
@@ -15,7 +16,7 @@ class PostsTest extends TestCase
     {
         parent::setUp();
 
-        config(['multilingual-posts.media-broker' => MediaLibraryMediaBroker::class]);
+        config(['multilingual-posts.media-broker' => SmlMediaBroker::class]);
     }
     
     /**

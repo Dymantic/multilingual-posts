@@ -10,6 +10,7 @@ use Dymantic\MultilingualPosts\Post;
 use Dymantic\MultilingualPosts\PostResource;
 use Dymantic\MultilingualPosts\Tests\ComparesResources;
 use Dymantic\MultilingualPosts\Tests\TestCase;
+use Dymantic\SmlMediaBroker\SmlMediaBroker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 
@@ -21,7 +22,7 @@ class PostResourceTest extends TestCase
     {
         parent::setUp();
 
-        config(['multilingual-posts.media-broker' => MediaLibraryMediaBroker::class]);
+        config(['multilingual-posts.media-broker' => SmlMediaBroker::class]);
     }
 
     /**
