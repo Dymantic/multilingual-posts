@@ -4,9 +4,10 @@
 namespace Dymantic\MultilingualPosts;
 
 
-use Illuminate\Http\Resources\Json\Resource;
 
-class PostResource extends Resource
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class PostResource extends JsonResource
 {
     public static $wrap = null;
 

@@ -15,7 +15,7 @@
     "spatie/laravel-translatable": "^4.0"
   },
   "require-dev": {
-    "orchestra/testbench": "~3.0",
+    "orchestra/testbench": "~5.0",
     "dymantic/sml-mediabroker": "^0.7"
   },
   "autoload": {
