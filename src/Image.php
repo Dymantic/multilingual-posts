@@ -28,7 +28,7 @@ class Image
 
     public function getFullUrl($conversion = "")
     {
-        return Str::of(config('app.url'))
+        return (string) Str::of(config('app.url'))
             ->trim('/')
             ->append(Str::of($this->getUrl($conversion))->start('/'));
     }
