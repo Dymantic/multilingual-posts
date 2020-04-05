@@ -4,6 +4,8 @@
 namespace Dymantic\MultilingualPosts;
 
 
+use Illuminate\Support\Str;
+
 class Image
 {
     public $src;
@@ -22,5 +24,12 @@ class Image
             return $this->src;
         }
         return $this->conversions[$conversion] ?? null;
+    }
+
+    public function getFullUrl($conversion = "")
+    {
+        return Str::of(config('app.url'))
+            ->trim('/')
+            ->append(Str::of($this->getUrl($conversion))->start('/'));
     }
 }
