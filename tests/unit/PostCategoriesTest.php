@@ -100,4 +100,21 @@ class PostCategoriesTest extends TestCase
 
         $this->assertCount(0, $post->fresh()->categories);
     }
+
+    /**
+     *@test
+     */
+    public function can_release_posts_from_a_category()
+    {
+        $post = $this->makePost();
+        $category = $this->makeCategory();
+
+        $post->setCategories(collect([$category]));
+
+        $this->assertCount(1, $category->fresh()->posts);
+
+        $category->releasePosts();
+
+        $this->assertCount(0, $category->fresh()->posts);
+    }
 }

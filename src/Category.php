@@ -52,4 +52,9 @@ class Category extends Model
     {
         return $this->belongsToMany(Post::class, 'multilingual_category_post');
     }
+
+    public function releasePosts()
+    {
+        $this->posts()->sync([]);
+    }
 }
