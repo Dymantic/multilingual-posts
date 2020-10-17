@@ -15,7 +15,6 @@
   },
   "require-dev": {
     "orchestra/testbench": "~5.0",
-    "dymantic/sml-mediabroker": "^0.7"
   },
   "autoload": {
     "psr-4": {
