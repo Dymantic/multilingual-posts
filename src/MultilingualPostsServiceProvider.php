@@ -10,7 +10,7 @@ class MultilingualPostsServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/routes.php');
 
         $this->publishes([
-            __DIR__.'/../config/medialibrary.php' => config_path('multilingual-posts.php'),
+            __DIR__.'/../config/multilingual-posts.php.php' => config_path('multilingual-posts.php'),
         ], 'config');
 
         if (! class_exists('CreateMultilingualPostsTable')) {
