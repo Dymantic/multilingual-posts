@@ -42,6 +42,6 @@ class RetractPostTest extends TestCase
         $response = $this->asLoggedInUser()->deleteJson("/multilingual-posts/published-posts/{$post->id}");
         $response->assertStatus(200);
         $expected = $this->getResourceResponseData(new PostResource($post->fresh()));
-        $this->assertEquals($expected, $response->decodeResponseJson());
+        $this->assertEquals($expected, $response->json());
     }
 }

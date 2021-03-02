@@ -30,7 +30,7 @@ class SetTitleImageTest extends TestCase
                          ]);
         $response->assertStatus(200);
 
-        $this->assertEquals('test-image-from-test-broker.png', $response->decodeResponseJson('image_src'));
+        $this->assertEquals('test-image-from-test-broker.png', $response->json('image_src'));
     }
 
     /**

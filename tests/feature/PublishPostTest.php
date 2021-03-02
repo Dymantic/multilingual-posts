@@ -66,7 +66,7 @@ class PublishPostTest extends TestCase
 
         $expected = $this->getResourceResponseData(new PostResource($post->fresh()));
 
-        $this->assertEquals($expected, $response->decodeResponseJson());
+        $this->assertEquals($expected, $response->json());
 
         $this->assertDatabaseHas('multilingual_posts', ['id' => $post->id, 'is_draft' => false]);
     }

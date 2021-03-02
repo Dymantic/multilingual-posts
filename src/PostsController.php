@@ -12,7 +12,7 @@ class PostsController extends Controller
 
     public function index()
     {
-        return PostResource::collection(Post::paginate());
+        return PostResource::collection(Post::latest('updated_at')->paginate());
     }
 
     public function show($postId)

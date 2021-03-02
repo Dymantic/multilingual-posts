@@ -44,10 +44,10 @@ class PostSafeUpdateTest extends TestCase
         $post->safeUpdate($data);
         $post = $post->fresh();
 
-        $this->assertEquals(['en' => 'New title'], $post->getTranslations('title'));
-        $this->assertEquals(['en' => 'New intro'], $post->getTranslations('intro'));
-        $this->assertEquals(['en' => 'New description'], $post->getTranslations('description'));
-        $this->assertEquals(['en' => 'New body'], $post->getTranslations('body'));
+        $this->assertEquals('New title', $post->getTranslation('title', 'en'));
+        $this->assertEquals('New intro', $post->getTranslation('intro', 'en'));
+        $this->assertEquals('New description', $post->getTranslation('description', 'en'));
+        $this->assertEquals('New body', $post->getTranslation('body', 'en'));
     }
 
     /**
@@ -68,7 +68,7 @@ class PostSafeUpdateTest extends TestCase
         $post = $post->fresh();
 
         $this->assertEquals($original_title, $post->getTranslations('title'));
-        $this->assertEquals(['en' => 'New intro'], $post->getTranslations('intro'));
+        $this->assertEquals('New intro', $post->getTranslation('intro', 'en'));
         $this->assertEquals($original_description, $post->getTranslations('description'));
         $this->assertEquals($original_body, $post->getTranslations('body'));
     }
@@ -90,10 +90,10 @@ class PostSafeUpdateTest extends TestCase
         $post = $post->fresh();
 
 
-        $this->assertEquals(['en' => 'New title'], $post->getTranslations('title'));
-        $this->assertEquals(['en' => 'New intro'], $post->getTranslations('intro'));
-        $this->assertEquals(['en' => 'New description'], $post->getTranslations('description'));
-        $this->assertEquals(['en' => 'New body'], $post->getTranslations('body'));
+        $this->assertEquals('New title', $post->getTranslation('title', 'en'));
+        $this->assertEquals('New intro', $post->getTranslation('intro', 'en'));
+        $this->assertEquals('New description', $post->getTranslation('description', 'en'));
+        $this->assertEquals('New body', $post->getTranslation('body', 'en'));
     }
 
     /**
@@ -120,10 +120,10 @@ class PostSafeUpdateTest extends TestCase
         $this->assertTrue($post->categories->contains($categoryA));
         $this->assertTrue($post->categories->contains($categoryB));
 
-        $this->assertEquals(['en' => 'New title'], $post->getTranslations('title'));
-        $this->assertEquals(['en' => 'New intro'], $post->getTranslations('intro'));
-        $this->assertEquals(['en' => 'New description'], $post->getTranslations('description'));
-        $this->assertEquals(['en' => 'New body'], $post->getTranslations('body'));
+        $this->assertEquals('New title', $post->getTranslation('title', 'en'));
+        $this->assertEquals('New intro', $post->getTranslation('intro', 'en'));
+        $this->assertEquals('New description', $post->getTranslation('description', 'en'));
+        $this->assertEquals('New body', $post->getTranslation('body', 'en'));
 
 
     }

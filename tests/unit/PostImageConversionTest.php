@@ -7,7 +7,6 @@ namespace Dymantic\MultilingualPosts\Tests\unit;
 use Dymantic\MultilingualPosts\Post;
 use Dymantic\MultilingualPosts\PostImageConversion;
 use Dymantic\MultilingualPosts\Tests\TestCase;
-use Spatie\Image\Manipulations;
 
 class PostImageConversionTest extends TestCase
 {
@@ -26,7 +25,6 @@ class PostImageConversionTest extends TestCase
         ]);
 
         $this->assertEquals('web', $conversion->name);
-        $this->assertEquals(Manipulations::FIT_CROP, $conversion->manipulation);
         $this->assertEquals(1600, $conversion->width);
         $this->assertEquals(1000, $conversion->height);
         $this->assertEquals([Post::BODY_IMAGES], $conversion->collections);
@@ -49,7 +47,6 @@ class PostImageConversionTest extends TestCase
         ]);
 
         $this->assertEquals('thumb', $conversion->name);
-        $this->assertEquals(Manipulations::FIT_MAX, $conversion->manipulation);
         $this->assertEquals(400, $conversion->width);
         $this->assertEquals(400, $conversion->height);
         $this->assertEquals([Post::TITLE_IMAGES, Post::BODY_IMAGES], $conversion->collections);
@@ -72,7 +69,6 @@ class PostImageConversionTest extends TestCase
         ]);
 
         $this->assertEquals('banner', $conversion->name);
-        $this->assertEquals(Manipulations::FIT_CROP, $conversion->manipulation);
         $this->assertEquals(2000, $conversion->width);
         $this->assertEquals(1000, $conversion->height);
         $this->assertEquals([Post::TITLE_IMAGES], $conversion->collections);

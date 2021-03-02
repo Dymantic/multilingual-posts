@@ -78,7 +78,7 @@ class CreatePostTest extends TestCase
         $this->assertCount(1, Post::all());
         $expected = $this->getResourceResponseData(new PostResource(Post::first()));
 
-        $this->assertEquals($expected, $response->decodeResponseJson());
+        $this->assertEquals($expected, $response->json());
     }
 
     /**

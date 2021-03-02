@@ -31,7 +31,7 @@ class AttachPostImageTest extends TestCase
         $response->assertStatus(201);
 
 
-        $this->assertEquals('test-image-from-test-broker.png', $response->decodeResponseJson('src'));
+        $this->assertEquals('test-image-from-test-broker.png', $response->json('src'));
     }
 
     /**

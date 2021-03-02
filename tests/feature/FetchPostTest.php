@@ -26,6 +26,6 @@ class FetchPostTest extends TestCase
 
         $expected = $this->getResourceResponseData(new PostResource($post));
 
-        $this->assertEquals($expected, $response->decodeResponseJson());
+        $this->assertEquals($expected, $response->json());
     }
 }

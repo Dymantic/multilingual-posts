@@ -49,8 +49,8 @@ class FetchPaginatedPostsTest extends TestCase
             return $this->getResourceResponseData(new PostResource($post));
         })->all();
 
-        $this->assertEquals($expected_posts_data, $response->decodeResponseJson('data'));
-        $this->assertEquals(1, $response->decodeResponseJson('meta')['current_page']);
-        $this->assertEquals(2, $response->decodeResponseJson('meta')['last_page']);
+        $this->assertEquals($expected_posts_data, $response->json('data'));
+        $this->assertEquals(1, $response->json('meta')['current_page']);
+        $this->assertEquals(2, $response->json('meta')['last_page']);
     }
 }

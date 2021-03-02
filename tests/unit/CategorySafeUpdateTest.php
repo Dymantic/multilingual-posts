@@ -43,9 +43,9 @@ class CategorySafeUpdateTest extends TestCase
 
         $category = $category->fresh();
 
-        $this->assertEquals(['en' => 'new title'], $category->getTranslations('title'));
+        $this->assertSame('new title', $category->getTranslation('title', 'en'));
         $this->assertEquals(['en' => 'old intro'], $category->getTranslations('intro'));
-        $this->assertEquals(['en' => 'new description'], $category->getTranslations('description'));
+        $this->assertEquals('new description', $category->getTranslation('description', 'en'));
     }
 
     /**
@@ -67,8 +67,8 @@ class CategorySafeUpdateTest extends TestCase
 
         $category = $category->fresh();
 
-        $this->assertEquals(['en' => 'new title'], $category->getTranslations('title'));
-        $this->assertEquals(['en' => 'new intro'], $category->getTranslations('intro'));
-        $this->assertEquals(['en' => 'new description'], $category->getTranslations('description'));
+        $this->assertEquals('new title', $category->getTranslation('title', 'en'));
+        $this->assertEquals('new intro', $category->getTranslation('intro', 'en'));
+        $this->assertEquals('new description', $category->getTranslation('description', 'en'));
     }
 }
