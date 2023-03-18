@@ -23,9 +23,13 @@ class Post extends Model
 
     public $translatable = ['title', 'intro', 'description', 'body'];
 
-    protected $dates = ['publish_date', 'first_published_on'];
+    protected $dates = [];
 
-    protected $casts = ['is_draft' => 'boolean'];
+    protected $casts = [
+        'is_draft' => 'boolean',
+        'publish_date' => 'datetime',
+        'first_published_on' => 'datetime',
+    ];
 
     public static function create($post_attributes)
     {
